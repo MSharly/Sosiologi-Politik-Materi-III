@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f4ef">
+  <title>Kekuasaan, Negara & Masyarakat Sipil — Ruang Belajar</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f4ef;
+      --surface: #fffefa;
+      --ink: #1d2a27;
+      --muted: #65736d;
+      --line: #e4e6dc;
+      --green: #245c49;
+      --green-dark: #174535;
+      --mint: #e5efe8;
+      --gold: #d8963e;
+      --gold-light: #fbf0dc;
+      --blue: #42677b;
+      --shadow: 0 16px 42px rgba(34, 54, 45, .08);
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); line-height: 1.7; }
+    a { color: inherit; }
+    button { font: inherit; }
+    .topbar {
+      position: sticky; top: 0; z-index: 20; height: 72px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 76px); background: rgba(255, 254, 250, .94);
+      border-bottom: 1px solid var(--line); backdrop-filter: blur(12px);
+    }
+    .brand { display: flex; gap: 11px; align-items: center; text-decoration: none; font-weight: 750; letter-spacing: -.03em; }
+    .brand-mark {
+      width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px;
+      background: var(--green); color: white; font-family: Georgia, serif; font-size: 19px;
+    }
+    .top-label { color: var(--muted); font-size: 13px; }
+    .layout { display: grid; grid-template-columns: 248px minmax(0, 1fr); max-width: 1440px; margin: auto; }
+    .sidebar { position: sticky; top: 72px; height: calc(100vh - 72px); padding: 38px 22px 24px clamp(20px, 4vw, 54px); overflow-y: auto; }
+    .side-caption { margin: 0 0 14px; color: #8a958e; font-size: 10px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .nav-link {
+      display: flex; gap: 12px; align-items: flex-start; margin: 4px 0; padding: 10px 12px;
+      color: #56665f; text-decoration: none; border-radius: 10px; font-size: 13px; line-height: 1.4;
+      transition: background .2s, color .2s;
+    }
+    .nav-link:hover, .nav-link.active { background: var(--mint); color: var(--green-dark); }
+    .nav-number { font-size: 10px; font-weight: 800; color: #92a198; padding-top: 2px; }
+    .side-note { margin: 36px 8px 0; padding: 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    main { min-width: 0; padding: 35px clamp(22px, 5vw, 78px) 90px 28px; }
+    .hero {
+      position: relative; overflow: hidden; min-height: 360px; padding: clamp(32px, 5vw, 66px);
+      display: flex; align-items: center; border-radius: 24px; color: #fffefa;
+      background: var(--green-dark);
+    }
+    .hero::after {
+      content: ""; position: absolute; width: 360px; height: 360px; border-radius: 50%;
+      right: -80px; bottom: -180px; border: 1px solid rgba(255,255,255,.18);
+      box-shadow: 0 0 0 35px rgba(255,255,255,.035), 0 0 0 75px rgba(255,255,255,.03);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 690px; }
+    .eyebrow { margin: 0 0 14px; color: #c8dcca; font-size: 11px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    h1 { margin: 0; max-width: 650px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(38px, 6vw, 68px); font-weight: 500; line-height: 1.06; letter-spacing: -.045em; }
+    .hero p:not(.eyebrow) { max-width: 580px; margin: 20px 0 0; color: #d6e1d8; font-size: 16px; }
+    .hero-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+    .pill { padding: 6px 11px; border: 1px solid rgba(255,255,255,.24); border-radius: 20px; color: #edf4ee; font-size: 11px; }
+    .intro-strip {
+      display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center;
+      margin: 24px 0 55px; padding: 20px 23px; border: 1px solid var(--line);
+      border-radius: 14px; background: var(--surface);
+    }
+    .intro-strip p { margin: 0; color: #4e5e56; font-size: 14px; }
+    .intro-tag { color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .06em; white-space: nowrap; }
+    .lesson { margin: 0 0 74px; }
+    .section-heading { display: grid; grid-template-columns: 48px 1fr; gap: 16px; align-items: start; margin-bottom: 26px; }
+    .section-number {
+      width: 43px; height: 43px; display: grid; place-items: center; border-radius: 14px;
+      background: var(--gold-light); color: #98621f; font-family: Georgia, serif; font-size: 17px;
+    }
+    .section-kicker { margin: 0 0 3px; color: #859189; font-size: 10px; font-weight: 800; letter-spacing: .15em; text-transform: uppercase; }
+    h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(28px, 4vw, 39px); line-height: 1.2; letter-spacing: -.03em; }
+    .section-lead { max-width: 740px; margin: 10px 0 0; color: var(--muted); font-size: 14px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .card { padding: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 15px; }
+    .card h3 { margin: 0 0 9px; font-size: 16px; letter-spacing: -.015em; }
+    .card p { margin: 0; color: #5e6b64; font-size: 13px; }
+    .card-label { display: block; margin-bottom: 11px; color: var(--green); font-size: 10px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .structure-card { overflow: hidden; margin-top: 16px; padding: 0; border-color: #dce5dc; box-shadow: var(--shadow); }
+    .structure-heading { padding: 20px 24px 17px; background: var(--mint); }
+    .structure-heading .card-label { margin-bottom: 5px; }
+    .structure-heading h3 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 23px; }
+    .structure-content { padding: 21px 24px 24px; }
+    .structure-content > p { margin: 0 0 11px; color: #58675f; font-size: 13px; }
+    .structure-content > p:last-of-type { margin-bottom: 13px; color: var(--ink); font-weight: 650; }
+    .structure-tables { display: grid; gap: 9px; }
+    .structure-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border: 1px solid #e3e8df; border-radius: 11px; background: #fcfcf8; }
+    .structure-table th, .structure-table td { padding: 13px 15px; text-align: left; vertical-align: top; font-size: 12px; line-height: 1.55; }
+    .structure-table th { width: 32%; border-right: 1px solid #e8ebe4; color: var(--green-dark); font-weight: 700; }
+    .structure-table td { color: #5e6b64; }
+    .quote {
+      margin: 16px 0 0; padding: 15px 18px; border-left: 3px solid var(--gold);
+      border-radius: 0 10px 10px 0; background: var(--gold-light); color: #594a34; font-size: 13px;
+    }
+    .quote strong { color: #3d3528; }
+    .authority-card { min-height: 170px; }
+    .authority-card .letter { display: block; margin-bottom: 13px; color: var(--gold); font-family: Georgia, serif; font-size: 27px; line-height: 1; }
+    .dist-card { position: relative; overflow: hidden; min-height: 175px; }
+    .dist-card .card-label { color: var(--blue); }
+    .dist-card::after { content: ""; position: absolute; right: -19px; bottom: -35px; width: 90px; height: 90px; border: 1px solid #e6e9e3; border-radius: 50%; }
+    .factor-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; padding: 0; margin: 0; list-style: none; }
+    .factor-list li { display: grid; grid-template-columns: 32px 1fr; gap: 12px; padding: 15px 2px; border-bottom: 1px solid var(--line); }
+    .factor-index { color: #b37a2e; font-family: Georgia, serif; font-size: 14px; }
+    .factor-list strong { display: block; margin-bottom: 2px; font-size: 13px; }
+    .factor-list span:last-child { color: var(--muted); font-size: 12px; line-height: 1.55; }
+    .impact-box { margin-top: 19px; padding: 22px; border-radius: 15px; background: var(--mint); }
+    .impact-box h3 { margin: 0 0 12px; color: var(--green-dark); font-size: 15px; }
+    .impact-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+    .impact-columns p { margin: 0; color: #50635a; font-size: 13px; }
+    .impact-columns strong { display: block; margin-bottom: 5px; color: var(--green-dark); }
+    .branch-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 12px; margin: 16px 0; }
+    .branch { padding: 17px; border-radius: 12px; background: #f1f3ed; }
+    .branch strong { display: block; margin-bottom: 5px; color: var(--green-dark); font-size: 12px; }
+    .branch p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.55; }
+    .institution-note { padding: 14px 17px; border: 1px dashed #cbd4ca; border-radius: 12px; color: #5b6860; font-size: 12px; }
+    .institution-note strong { color: var(--ink); }
+    .civil-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 15px; }
+    .civil-card { padding: 24px; }
+    .civil-card ul, .challenge-list { padding-left: 19px; margin: 13px 0 0; color: #5e6b64; font-size: 13px; }
+    .civil-card li, .challenge-list li { margin: 6px 0; }
+    .distinction { margin-top: 15px; padding: 14px 16px; border-radius: 10px; background: #edf2f4; color: #50636d; font-size: 12px; }
+    .theory-list { display: grid; gap: 12px; }
+    .theory-item { display: grid; grid-template-columns: 38px 1fr; gap: 14px; padding: 18px; border: 1px solid var(--line); border-radius: 13px; background: var(--surface); }
+    .theory-symbol { width: 35px; height: 35px; display: grid; place-items: center; border-radius: 11px; background: var(--mint); color: var(--green); font-family: Georgia, serif; font-weight: 700; }
+    .theory-item h3 { margin: 0 0 4px; font-size: 14px; }
+    .theory-item p { margin: 0; color: var(--muted); font-size: 12px; }
+    .challenge-box { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; padding: 22px; border-radius: 15px; background: #f0ece3; }
+    .challenge-box h3 { margin: 0; font-family: Georgia, serif; font-size: 21px; }
+    .challenge-box p { margin: 8px 0 0; color: #655f53; font-size: 13px; }
+    .challenge-box .challenge-list { margin-top: 0; color: #5e5c54; }
+    footer { display: flex; justify-content: space-between; gap: 18px; margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--line); color: #7c8981; font-size: 11px; }
+    :focus-visible { outline: 3px solid #dfa752; outline-offset: 3px; }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; display: flex; height: auto; gap: 6px; align-items: center; padding: 12px 20px; overflow-x: auto; border-bottom: 1px solid var(--line); background: var(--paper); }
+      .side-caption, .side-note { display: none; }
+      .nav-link { flex: 0 0 auto; margin: 0; padding: 9px 11px; font-size: 11px; }
+      .nav-number { display: none; }
+      main { padding: 24px clamp(18px, 5vw, 52px) 70px; }
+      html { scroll-padding-top: 74px; }
+    }
+    @media (max-width: 650px) {
+      .topbar { height: 62px; padding: 0 18px; }
+      .top-label { font-size: 11px; }
+      .brand { font-size: 13px; }
+      .layout main { padding-top: 16px; }
+      .hero { min-height: 340px; border-radius: 18px; }
+      .intro-strip { grid-template-columns: 1fr; gap: 8px; margin-bottom: 43px; }
+      .intro-tag { white-space: normal; }
+      .grid-2, .grid-3, .factor-list, .civil-grid, .impact-columns, .challenge-box { grid-template-columns: 1fr; }
+      .branch-grid { grid-template-columns: 1fr; }
+      .structure-heading { padding: 18px 19px 15px; }
+      .structure-content { padding: 18px 19px 20px; }
+      .structure-table th, .structure-table td { display: block; width: auto; padding: 10px 12px; }
+      .structure-table th { border-right: 0; border-bottom: 1px solid #e8ebe4; background: var(--mint); }
+      .section-heading { grid-template-columns: 40px 1fr; gap: 12px; }
+      .section-number { width: 38px; height: 38px; }
+      .lesson { margin-bottom: 58px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#beranda" aria-label="Ruang Belajar, ke beranda">
+      <span class="brand-mark" aria-hidden="true">R</span>
+      <span>Ruang Belajar</span>
+    </a>
+    <span class="top-label">Sosiologi Politik · Materi 03</span>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="Navigasi materi">
+      <p class="side-caption">Daftar materi</p>
+      <a class="nav-link active" href="#beranda"><span class="nav-number">00</span>Pengantar</a>
+      <a class="nav-link" href="#dasar"><span class="nav-number">01</span>Konsep Dasar</a>
+      <a class="nav-link" href="#distribusi"><span class="nav-number">02</span>Distribusi Kekuasaan</a>
+      <a class="nav-link" href="#negara-sipil"><span class="nav-number">03</span>Negara & Masyarakat Sipil</a>
+      <p class="side-note">Baca materi secara berurutan untuk memahami kekuasaan dan kehidupan politik.</p>
+    </nav>
+
+    <main>
+      <section class="hero" id="beranda">
+        <div class="hero-content">
+          <p class="eyebrow">Belajar politik dari kehidupan sehari-hari</p>
+          <h1>Siapa yang berkuasa, dan untuk siapa?</h1>
+          <p>Kenali kekuasaan, wewenang, struktur politik, serta hubungan negara dan masyarakat sipil dalam kehidupan bersama.</p>
+          <div class="hero-meta">
+            <span class="pill">3 bagian pembelajaran</span>
+            <span class="pill">Ringkasan konsep</span>
+          </div>
+        </div>
+      </section>
+
+      <div class="intro-strip">
+        <p>Politik bukan hanya tentang pemerintah. Ia juga hadir dalam cara keputusan dibuat, sumber daya dibagikan, gagasan dibentuk, dan warga menyuarakan kepentingannya.</p>
+        <span class="intro-tag">GAGASAN UTAMA&nbsp; · &nbsp;KEKUASAAN SELALU BERELASI</span>
+      </div>
+
+      <section class="lesson" id="dasar">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div>
+            <p class="section-kicker">Memahami istilah</p>
+            <h2>Kekuasaan, Wewenang & Struktur Politik</h2>
+            <p class="section-lead">Tiga konsep yang saling berkaitan untuk menjelaskan bagaimana kehidupan politik diatur.</p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <article class="card">
+            <span class="card-label">Power</span>
+            <h3>Kekuasaan</h3>
+            <p>Kemampuan seseorang, kelompok, atau lembaga untuk memengaruhi perilaku, keputusan, dan tindakan pihak lain—termasuk ketika pihak tersebut memiliki keinginan berbeda. Kekuasaan dapat digunakan untuk membuat keputusan, mengatur sumber daya, menetapkan aturan, dan memengaruhi arah kehidupan bersama.</p>
+            <div class="quote"><strong>Max Weber:</strong> kekuasaan berkaitan dengan kemungkinan seseorang melaksanakan kehendaknya dalam suatu hubungan sosial, sekalipun menghadapi perlawanan.</div>
+          </article>
+          <article class="card">
+            <span class="card-label">Authority</span>
+            <h3>Wewenang</h3>
+            <p>Kekuasaan yang diakui atau dianggap sah untuk mengambil keputusan, memberikan perintah, dan menjalankan tugas tertentu. Kekuasaan menunjukkan kemampuan memengaruhi; wewenang menekankan hak atau legitimasi berdasarkan aturan, jabatan, atau pengakuan sosial.</p>
+          </article>
+        </div>
+
+        <h3 style="margin:26px 0 13px;font-size:15px">Tiga tipe ideal wewenang menurut Max Weber</h3>
+        <div class="grid-3">
+          <article class="card authority-card">
+            <span class="letter">a.</span><h3>Tradisional</h3>
+            <p>Diterima karena adat, kebiasaan, atau tradisi yang telah berlangsung lama.</p>
+          </article>
+          <article class="card authority-card">
+            <span class="letter">b.</span><h3>Legal-rasional</h3>
+            <p>Didasarkan pada hukum, peraturan, dan jabatan resmi.</p>
+          </article>
+          <article class="card authority-card">
+            <span class="letter">c.</span><h3>Karismatik</h3>
+            <p>Muncul karena pengikut meyakini kualitas pribadi, karisma, atau kemampuan luar biasa seorang pemimpin.</p>
+          </article>
+        </div>
+
+        <article class="card structure-card">
+          <div class="structure-heading">
+            <span class="card-label">Political Structure</span>
+            <h3>Struktur Politik</h3>
+          </div>
+          <div class="structure-content">
+            <p>Struktur politik adalah susunan lembaga, aktor, aturan, dan hubungan kekuasaan yang membentuk proses pengambilan keputusan politik dalam masyarakat.</p>
+            <p>Struktur politik menentukan siapa yang memiliki kewenangan, bagaimana keputusan dibuat, bagaimana aspirasi disalurkan, dan bagaimana pemerintah diawasi.</p>
+            <p>Unsur-unsur struktur politik meliputi:</p>
+            <div class="structure-tables">
+              <table class="structure-table">
+                <tbody><tr><th scope="row">Lembaga negara di Indonesia</th><td>Dibagi berdasarkan tiga cabang kekuasaan utama (<em>Trias Politica</em>) beserta lembaga eksaminatif dan pengawas/mandiri.</td></tr></tbody>
+              </table>
+              <table class="structure-table">
+                <tbody><tr><th scope="row">Partai politik</th><td>Organisasi yang menyalurkan aspirasi politik dan berkompetisi dalam pemilihan umum.</td></tr></tbody>
+              </table>
+              <table class="structure-table">
+                <tbody><tr><th scope="row">Kelompok kepentingan</th><td>Organisasi yang memperjuangkan kepentingan tertentu, seperti organisasi profesi dan serikat pekerja.</td></tr></tbody>
+              </table>
+              <table class="structure-table">
+                <tbody><tr><th scope="row">Masyarakat sipil</th><td>Organisasi dan kelompok masyarakat yang relatif mandiri dari negara.</td></tr></tbody>
+              </table>
+              <table class="structure-table">
+                <tbody><tr><th scope="row">Masyarakat atau warga negara</th><td>Pihak yang memberikan mandat politik melalui pemilu dan berpartisipasi dalam kehidupan publik.</td></tr></tbody>
+              </table>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <section class="lesson" id="distribusi">
+        <div class="section-heading">
+          <span class="section-number">02</span>
+          <div>
+            <p class="section-kicker">Kekuasaan di dalam masyarakat</p>
+            <h2>Konsep & Distribusi Kekuasaan</h2>
+            <p class="section-lead">Kekuasaan tidak hanya berada di lembaga pemerintahan. Kekuasaan juga tersebar dalam hubungan sosial, ekonomi, pendidikan, budaya, dan kehidupan sehari-hari.</p>
+          </div>
+        </div>
+        <div class="grid-2">
+          <article class="card"><span class="card-label">01 · Pengaruh</span><h3>Kemampuan memengaruhi</h3><p>Seseorang memiliki kekuasaan apabila dapat memengaruhi pilihan atau tindakan orang lain.</p></article>
+          <article class="card"><span class="card-label">02 · Sumber daya</span><h3>Pengendalian sumber daya</h3><p>Pihak yang menguasai sumber daya penting dapat memiliki pengaruh yang lebih besar.</p></article>
+          <article class="card"><span class="card-label">03 · Keputusan</span><h3>Pengambilan keputusan</h3><p>Kekuasaan tampak dalam kemampuan menentukan kebijakan yang berdampak terhadap banyak orang.</p></article>
+          <article class="card"><span class="card-label">04 · Gagasan</span><h3>Pembentukan opini</h3><p>Pendidikan, media, budaya, dan penyebaran informasi memengaruhi cara masyarakat memahami persoalan.</p></article>
+        </div>
+
+        <h3 style="margin:29px 0 13px;font-size:15px">Pola distribusi kekuasaan</h3>
+        <div class="grid-3">
+          <article class="card dist-card"><span class="card-label">Pola 01</span><h3>Terpusat</h3><p>Kekuasaan lebih banyak terkonsentrasi pada satu pemimpin atau kelompok kecil.</p></article>
+          <article class="card dist-card"><span class="card-label">Pola 02</span><h3>Terbagi</h3><p>Kekuasaan dibagi di antara beberapa lembaga atau kelompok dengan fungsi dan kewenangan berbeda.</p></article>
+          <article class="card dist-card"><span class="card-label">Pola 03</span><h3>Partisipatif</h3><p>Masyarakat memiliki ruang untuk menyampaikan aspirasi, mengawasi keputusan, dan berpartisipasi dalam proses politik.</p></article>
+        </div>
+        <p class="section-lead" style="margin-top:12px">Distribusi kekuasaan adalah cara pengaruh, kewenangan, dan akses terhadap sumber daya tersebar di antara individu, kelompok, dan lembaga. Distribusi ini tidak selalu merata: sebagian kelompok memiliki akses lebih besar terhadap jabatan, kekayaan, informasi, atau proses kebijakan.</p>
+
+        <h3 style="margin:29px 0 5px;font-size:15px">Apa yang memengaruhinya?</h3>
+        <ol class="factor-list">
+          <li><span class="factor-index">01</span><span><strong>Ekonomi</strong><span>Kepemilikan modal, tanah, perusahaan, dan sumber daya dapat memperbesar pengaruh.</span></span></li>
+          <li><span class="factor-index">02</span><span><strong>Pendidikan & pengetahuan</strong><span>Keahlian dan akses informasi memudahkan partisipasi dalam pengambilan keputusan.</span></span></li>
+          <li><span class="factor-index">03</span><span><strong>Status sosial & budaya</strong><span>Kedudukan keluarga, tradisi, dan pengakuan masyarakat dapat menjadi sumber pengaruh.</span></span></li>
+          <li><span class="factor-index">04</span><span><strong>Hukum & kelembagaan</strong><span>Konstitusi, undang-undang, dan pembagian kewenangan menentukan batas kekuasaan formal.</span></span></li>
+          <li><span class="factor-index">05</span><span><strong>Partisipasi politik</strong><span>Pemilu, organisasi masyarakat, demonstrasi damai, dan diskusi publik memperluas keterlibatan.</span></span></li>
+          <li><span class="factor-index">06</span><span><strong>Media & teknologi informasi</strong><span>Akses informasi dan kemampuan menyebarkan gagasan dapat memperkuat atau membatasi pengaruh.</span></span></li>
+        </ol>
+        <div class="impact-box">
+          <h3>Dampak distribusi kekuasaan</h3>
+          <div class="impact-columns">
+            <p><strong>Jika dikelola dengan baik</strong>Dapat mendorong pemerintahan yang bertanggung jawab, kebijakan yang responsif, dan partisipasi masyarakat yang lebih luas.</p>
+            <p><strong>Jika terlalu terkonsentrasi tanpa pengawasan</strong>Dapat memicu penyalahgunaan wewenang, korupsi dan nepotisme, ketimpangan sosial-ekonomi, terbatasnya partisipasi, serta kebijakan yang menguntungkan kelompok tertentu.</p>
+          </div>
+          <p style="margin:13px 0 0;color:#50635a;font-size:12px"><strong>Penjaganya:</strong> aturan hukum, transparansi, akuntabilitas, pembagian kewenangan, dan pengawasan masyarakat.</p>
+        </div>
+      </section>
+
+      <section class="lesson" id="negara-sipil">
+        <div class="section-heading">
+          <span class="section-number">03</span>
+          <div>
+            <p class="section-kicker">Ruang publik & kehidupan bersama</p>
+            <h2>Negara dan Masyarakat Sipil</h2>
+            <p class="section-lead">Keduanya dapat bekerja sama, saling mengawasi, menyampaikan kritik, atau bernegosiasi demi kepentingan publik.</p>
+          </div>
+        </div>
+        <div class="civil-grid">
+          <article class="card civil-card">
+            <span class="card-label">Organisasi politik</span><h3>Negara</h3>
+            <p>Organisasi politik yang memiliki wilayah, penduduk, pemerintahan, dan kedaulatan serta menjalankan kewenangan publik berdasarkan hukum.</p>
+            <p style="margin-top:11px">Negara mengatur kehidupan bersama, menjaga keamanan, memberikan pelayanan publik, melindungi hak warga negara, dan mewujudkan kesejahteraan masyarakat.</p>
+          </article>
+          <article class="card civil-card">
+            <span class="card-label">Ruang partisipasi</span><h3>Masyarakat Sipil</h3>
+            <p>Ruang kehidupan bersama yang diisi organisasi, kelompok, dan kegiatan warga yang relatif mandiri dari negara.</p>
+            <ul>
+              <li>Memperjuangkan kepentingan dan membangun solidaritas.</li>
+              <li>Menyampaikan aspirasi dan mendidik masyarakat.</li>
+              <li>Membantu kelompok rentan, mengawasi pemerintah, dan memperjuangkan HAM.</li>
+            </ul>
+          </article>
+        </div>
+        <div class="distinction"><strong>Bedakan:</strong> masyarakat sipil bukan masyarakat secara keseluruhan, melainkan organisasi dan ruang partisipasi sosial yang tidak sepenuhnya dikendalikan negara. Partai politik berperan di dalam sistem politik negara; LSM dan kelompok advokasi umumnya beroperasi di luar struktur pemerintahan. Keduanya menjadi saluran partisipasi dengan fungsi berbeda.</div>
+
+        <h3 style="margin:29px 0 13px;font-size:15px">Bentuk Hubungan Negara dan Masyarakat Sipil</h3>
+        <div class="grid-2">
+          <article class="card"><span class="card-label">a · Kolaborasi</span><h3>Kerja sama</h3><p>Negara dan masyarakat sipil bekerja bersama untuk menyelesaikan persoalan publik.</p></article>
+          <article class="card"><span class="card-label">b · Akuntabilitas</span><h3>Kritik & pengawasan</h3><p>Masyarakat sipil mengawasi kebijakan pemerintah dan menyampaikan kritik apabila ada masalah.</p></article>
+          <article class="card"><span class="card-label">c · Keterlibatan</span><h3>Konsultasi & partisipasi</h3><p>Pemerintah membuka kesempatan bagi masyarakat untuk memberi masukan sebelum kebijakan ditetapkan.</p></article>
+          <article class="card"><span class="card-label">d · Penyelesaian</span><h3>Konflik & negosiasi</h3><p>Perbedaan kepentingan dapat diselesaikan melalui dialog, mediasi, proses hukum, dan negosiasi.</p></article>
+        </div>
+
+        <h3 style="margin:30px 0 13px;font-size:15px">Teori Hubungan Negara dan Masyarakat Sipil</h3>
+        <div class="theory-list">
+          <article class="theory-item"><span class="theory-symbol">L</span><div><h3>Demokrasi liberal</h3><p>Menekankan kebebasan berserikat dan berpendapat, perlindungan hak individu, serta pembatasan kekuasaan negara melalui hukum. Masyarakat sipil membantu mencegah pemerintah bertindak sewenang-wenang.</p></div></article>
+          <article class="theory-item"><span class="theory-symbol">G</span><div><h3>Perspektif Gramsci</h3><p>Antonio Gramsci melihat masyarakat sipil sebagai ruang penting pembentukan dan pemeliharaan hegemoni: gagasan dan nilai kelompok tertentu diterima luas hingga dianggap wajar atau benar. Kekuasaan dipertahankan bukan hanya lewat paksaan, tetapi juga melalui pengaruh pada pendidikan, budaya, media, dan cara berpikir.</p></div></article>
+          <article class="theory-item"><span class="theory-symbol">P</span><div><h3>Partisipasi demokratis</h3><p>Demokrasi tidak cukup hanya dengan pemilu. Warga juga perlu terlibat dalam pembahasan kebijakan, pengawasan pemerintah, dan penyelesaian masalah publik.</p></div></article>
+        </div>
+
+        <div class="challenge-box">
+          <div><h3>Tantangan hubungan negara dan masyarakat sipil</h3><p>Hubungan yang sehat membutuhkan ruang sipil yang aman, terbuka, dan sungguh-sungguh didengar.</p></div>
+          <ul class="challenge-list">
+            <li><strong>Dominasi negara:</strong> ruang kritik dan partisipasi terbatas.</li>
+            <li><strong>Ketergantungan organisasi:</strong> independensi melemah akibat ketergantungan pada pemerintah atau kelompok berkepentingan.</li>
+            <li><strong>Ketimpangan akses:</strong> dana, jaringan, dan informasi yang timpang memengaruhi akses kebijakan.</li>
+            <li><strong>Polarisasi:</strong> perbedaan politik berubah menjadi permusuhan dan menghambat dialog.</li>
+            <li><strong>Disinformasi:</strong> informasi keliru mengganggu keputusan dan kepercayaan publik.</li>
+            <li><strong>Partisipasi formalitas:</strong> masukan diminta, tetapi tidak dipertimbangkan secara bermakna.</li>
+          </ul>
+        </div>
+        <div class="quote" style="margin-top:14px"><strong>Langkah penguatan:</strong> lindungi kebebasan sipil, tegakkan hukum secara adil, tingkatkan transparansi pemerintah dan pendidikan politik, serta sediakan ruang dialog yang terbuka dan inklusif.</div>
+      </section>
+
+      <footer>
+        <span>Ruang Belajar · Sosiologi Politik</span>
+        <span>Belajar memahami, berpartisipasi, dan mengawasi.</span>
+      </footer>
+    </main>
+  </div>
+  <script>
+    const sections = [...document.querySelectorAll("main section[id]")];
+    const navLinks = [...document.querySelectorAll(".nav-link")];
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach((link) => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`));
+    }, { rootMargin: "-18% 0px -65% 0px", threshold: [0, .15, .4] });
+    sections.forEach((section) => observer.observe(section));
+  </script>
+</body>
+</html>
